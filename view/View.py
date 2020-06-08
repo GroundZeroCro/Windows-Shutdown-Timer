@@ -12,7 +12,7 @@ def start_shutdown():
 
 
 def cancel_shutdown():
-    print("Canceling windows shutdown")
+    print("Windows shutdown canceled")
 
 
 tk.Label(root, text="Hours", font=font).grid(row=0, padx=padding_horizontal, pady=padding_vertical, sticky=tk.W)
