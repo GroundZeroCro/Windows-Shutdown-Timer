@@ -1,9 +1,11 @@
 import tkinter as tk
 
 from presenter.SchedulerPresenter import SchedulerPresenter
+from view.SchedulerViewMain import SchedulerViewMain
+from view.SchedulerViewPresenter import SchedulerViewPresenter
 
 
-class SchedulerView:
+class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):
 
     def __init__(self, root):
         self.root = root
@@ -40,20 +42,13 @@ class SchedulerView:
         self.presenter = SchedulerPresenter(self)
         self.input_validation = root.register(self.presenter.valid_input)
 
+    def set_countdown_text(self, text):
+        self.__countdown_time.config(text=text)
+
     def instantiate_buttons(self):
         self.__on_start_click()
         self.__on_cancel_click()
         self.__input_validation()
-
-    def __on_start_click(self):
-        self.__start_button.configure(command=self.presenter.on_start_click)
-
-    def __on_cancel_click(self):
-        self.__cancel_button.configure(command=self.presenter.on_cancel_click)
-
-    def __input_validation(self):
-        self.__hours_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))
-        self.__minutes_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))
 
     def get_hours_input(self):
         return self.__hours_input.get()
@@ -67,5 +62,12 @@ class SchedulerView:
         else:
             self.__minutes_warning.grid_remove()
 
-    def set_countdown_text(self, text):
-        self.__countdown_time.config(text=text)
+    def __on_start_click(self):
+        self.__start_button.configure(command=self.presenter.on_start_click)
+
+    def __on_cancel_click(self):
+        self.__cancel_button.configure(command=self.presenter.on_cancel_click)
+
+    def __input_validation(self):
+        self.__hours_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))
+        self.__minutes_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))

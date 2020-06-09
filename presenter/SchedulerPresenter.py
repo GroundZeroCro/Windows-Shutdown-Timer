@@ -2,10 +2,11 @@ import threading
 import time
 
 from model.Scheduler import Scheduler
+from view.SchedulerViewPresenter import SchedulerViewPresenter
 
 
 class SchedulerPresenter:
-    def __init__(self, view):
+    def __init__(self, view: SchedulerViewPresenter):
         self.thread_running = None
         self.thread = None
         self.view = view
