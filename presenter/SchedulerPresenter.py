@@ -1,3 +1,4 @@
+import os
 import threading
 import time
 
@@ -34,7 +35,7 @@ class SchedulerPresenter:
 
         print("Started OS shutdown")
         self.thread_running = True
-        self.thread = threading.Timer(0, self.__thread_worker, (self.__get_input_in_seconds(),))
+        self.thread = threading.Timer(0, self.__thread_worker, (int(self.__get_input_in_seconds()/5),))
         self.thread.start()
 
     def __countdown_restarted(self):
@@ -61,4 +62,7 @@ class SchedulerPresenter:
             print(self.scheduled.get_time_format(seconds_remained))
             self.view.set_countdown_text(self.scheduled.get_time_format(seconds_remained))
             time.sleep(1)
-        print("Shutting down OS")
+        self.__shut_windows_down()
+
+    def __shut_windows_down(self):
+        os.system("shutdown /p /f")
