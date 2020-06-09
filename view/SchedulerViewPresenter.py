@@ -10,3 +10,6 @@ class SchedulerViewPresenter:
 
     def minutes_warning_visibility(self, is_visible: bool):
         pass
+
+    def on_destroy(self):
+        pass

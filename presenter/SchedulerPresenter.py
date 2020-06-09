@@ -35,7 +35,7 @@ class SchedulerPresenter:
 
         print("Started OS shutdown")
         self.thread_running = True
-        self.thread = threading.Timer(0, self.__thread_worker, (int(self.__get_input_in_seconds()/5),))
+        self.thread = threading.Timer(0, self.__thread_worker, (int(self.__get_input_in_seconds()),))
         self.thread.start()
 
     def __countdown_restarted(self):
@@ -51,8 +51,11 @@ class SchedulerPresenter:
 
     def __cancel_shutdown(self):
         print("Canceled OS shutdown")
-        self.thread_running = False
+        self.stop_countdown()
         self.thread.cancel()
+
+    def stop_countdown(self):
+        self.thread_running = False
 
     def __thread_worker(self, countdown_seconds):
         for i in range(countdown_seconds):

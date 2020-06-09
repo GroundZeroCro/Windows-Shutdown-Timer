@@ -17,7 +17,8 @@ class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):
         self.padding_vertical_last = (10, 10)
 
         self.__countdown_time = tk.Label(self.root, font=self.countdown_font)
-        self.__countdown_time.grid(row=0, padx=self.padding_horizontal, pady=self.padding_vertical, sticky=tk.W, columnspan=2)
+        self.__countdown_time.grid(row=0, padx=self.padding_horizontal, pady=self.padding_vertical, sticky=tk.W,
+                                   columnspan=2)
 
         tk.Label(self.root, text="Hours", font=self.font).grid(row=1, padx=self.padding_horizontal,
                                                                pady=self.padding_vertical, sticky=tk.W)
@@ -49,6 +50,7 @@ class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):
         self.__on_start_click()
         self.__on_cancel_click()
         self.__input_validation()
+        self.on_close_window()
 
     def get_hours_input(self):
         return self.__hours_input.get()
@@ -71,3 +73,10 @@ class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):
     def __input_validation(self):
         self.__hours_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))
         self.__minutes_input.configure(validate="key", validatecommand=(self.input_validation, "%P"))
+
+    def on_close_window(self):
+        self.root.protocol("WM_DELETE_WINDOW", self.on_destroy)
+
+    def on_destroy(self):
+        self.presenter.stop_countdown()
+        self.root.destroy()
