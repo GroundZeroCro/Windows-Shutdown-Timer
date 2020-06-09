@@ -2,32 +2,50 @@ import threading
 import time
 
 from model.Scheduler import Scheduler
-from view.SchedulerView import SchedulerView
 
 
-class SchedulerPresenter():
+class SchedulerPresenter:
     def __init__(self, view):
-        self.thread_running = True
+        self.thread_running = None
         self.thread = None
-        self.view: SchedulerView = view
-
+        self.view = view
         self.scheduled = Scheduler()
 
-    def instantiate_buttons(self):
-        self.view.on_start_click(self.__start_shutdown)
-        self.view.on_cancel_click(self.__cancel_shutdown)
+    def on_start_click(self):
+        if self.view.get_minutes_input() == "":
+            self.view.minutes_warning_visibility(True)
+            return
+        self.view.minutes_warning_visibility(False)
+        self.__start_shutdown()
 
-    def __get_input_in_seconds(self):
-        self.scheduled.hours = int(self.view.get_hours_input())
-        self.scheduled.minutes = int(self.view.get_minutes_input())
-        return self.scheduled.get_seconds()
+    def on_cancel_click(self):
+        self.__cancel_shutdown()
+
+    def valid_input(self, p):
+        if p.isdigit() or p == "":
+            return True
+        return False
 
     def __start_shutdown(self):
-        print(self.__get_input_in_seconds())
+        if self.__countdown_restarted():
+            self.__cancel_shutdown()
+            time.sleep(1)
+
         print("Started OS shutdown")
         self.thread_running = True
         self.thread = threading.Timer(0, self.__thread_worker, (self.__get_input_in_seconds(),))
         self.thread.start()
+
+    def __countdown_restarted(self):
+        return self.thread_running is True
+
+    def __get_input_in_seconds(self):
+        try:
+            self.scheduled.hours = int(self.view.get_hours_input())
+        except ValueError:
+            self.scheduled.hours = 0
+        self.scheduled.minutes = int(self.view.get_minutes_input())
+        return self.scheduled.get_seconds()
 
     def __cancel_shutdown(self):
         print("Canceled OS shutdown")
@@ -40,5 +58,6 @@ class SchedulerPresenter():
                 return
             seconds_remained = countdown_seconds - i
             print(self.scheduled.get_time_format(seconds_remained))
+            self.view.set_countdown_text(self.scheduled.get_time_format(seconds_remained))
             time.sleep(1)
         print("Shutting down OS")
