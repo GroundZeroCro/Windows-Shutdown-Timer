@@ -41,7 +41,7 @@ class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):
                                  pady=self.padding_vertical_last)
 
         self.presenter = SchedulerPresenter(self)
-        self.input_validation = root.register(self.presenter.valid_input)
+        self.input_validation = root.register(self.presenter.no_keypress_input_validation)
 
     def set_countdown_text(self, text):
         self.__countdown_time.config(text=text)

@@ -14,16 +14,20 @@ class SchedulerPresenter:
         self.scheduled = Scheduler()
 
     def on_start_click(self):
+        if self.has_minutes_input():
+            self.__start_shutdown()
+
+    def has_minutes_input(self):
         if self.view.get_minutes_input() == "":
             self.view.minutes_warning_visibility(True)
-            return
+            return False
         self.view.minutes_warning_visibility(False)
-        self.__start_shutdown()
+        return True
 
     def on_cancel_click(self):
         self.__cancel_shutdown()
 
-    def valid_input(self, p):
+    def no_keypress_input_validation(self, p):
         if p.isdigit() or p == "":
             return True
         return False
