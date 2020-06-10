@@ -34,3 +34,10 @@ class TestSchedulerPresenter(TestCase):
 
     def test_key_press_only_digits_and_empty_asserts_false(self):
         self.assertFalse(self.presenter.no_keypress_input_validation("a"))
+
+    def test_canceled_thread_running_asserts_false(self):
+        self.mocked_view.get_minutes_input = MagicMock(return_value=10)
+        self.presenter.on_start_click()
+        self.presenter.thread.join()
+        self.presenter.on_cancel_click()
+        self.assertFalse(self.presenter.thread_running)
