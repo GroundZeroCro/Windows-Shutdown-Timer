@@ -1,8 +1,8 @@
 import tkinter as tk
 
-from presenter.SchedulerPresenter import SchedulerPresenter
-from view.SchedulerViewMain import SchedulerViewMain
-from view.SchedulerViewPresenter import SchedulerViewPresenter
+from countdown.presenter.SchedulerPresenter import SchedulerPresenter
+from countdown.view.SchedulerViewMain import SchedulerViewMain
+from countdown.view.SchedulerViewPresenter import SchedulerViewPresenter
 
 
 class SchedulerViewImpl(SchedulerViewPresenter, SchedulerViewMain):

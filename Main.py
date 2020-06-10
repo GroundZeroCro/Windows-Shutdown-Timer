@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from view.SchedulerViewImpl import SchedulerViewImpl
-from view.SchedulerViewMain import SchedulerViewMain
+from countdown.view.SchedulerViewImpl import SchedulerViewImpl
+from countdown.view import SchedulerViewMain
 
 root = tk.Tk()
 view: SchedulerViewMain = SchedulerViewImpl(root)

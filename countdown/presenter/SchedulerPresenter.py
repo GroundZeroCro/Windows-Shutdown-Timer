@@ -2,8 +2,8 @@ import os
 import threading
 import time
 
-from model.Scheduler import Scheduler
-from view.SchedulerViewPresenter import SchedulerViewPresenter
+from countdown.model.Scheduler import Scheduler
+from countdown.view import SchedulerViewPresenter
 
 
 class SchedulerPresenter:
